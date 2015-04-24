@@ -48,7 +48,7 @@ public class AdidUserFindDemo
 			// kw 人群
 			List<AdidUser> keywordAdidUsers = this.keywordMatch.match(bean);
 
-			// 根据 url kw domain的优先级持久化用户清单
+			// 根据 url kw domain的优先级持久化用户清单 TODO 升级update
 			// 0. url
 			// 1. kw 
 			if (keywordAdidUsers != null && !keywordAdidUsers.isEmpty())
