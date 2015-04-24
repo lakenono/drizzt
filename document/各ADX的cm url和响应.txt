@@ -1,0 +1,19 @@
+TANX cm url
+http://cms.tanx.com/t.gif?id=34462052
+TANX 响应 ，请保存url里的tid和ver
+http://ct.wonnder.com/tanx_dsp/cm.php?tid=v1Zg4tVTHT4%3D&ver=1
+
+BES cm url
+http://cm.pos.baidu.com/pixel?dspid=6770394
+BES 响应 请保存baidu_user_id和cookie_version
+http://cb.wonnder.com/besc?baidu_user_id=8d36378892b23cf0a8681e9996814630&cookie_version=1&timestamp=1429270740&ext_data=
+
+SAX cm url
+http://sax.sina.com.cn/cm?sina_nid=19
+SAX 响应 请保存sina_sid
+http://cs.wonnder.com/saxc?sina_sid=My1fg79kfZCZ6h1j4YSHug%3d%3d
+
+MediaMax cm url
+http://cm.allyes.com/pixel?allyes_dspid=174&allyes_cm&ext_data=
+MediaMax响应 请保存allyes_id和allyes_cver
+http://cm.wonnder.com/mmc?allyes_id=VwQ%238AxWuS0FExoYTLh_p&allyes_cver=2&ext_data=
