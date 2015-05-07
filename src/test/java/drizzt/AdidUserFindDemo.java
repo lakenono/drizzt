@@ -67,12 +67,11 @@ public class AdidUserFindDemo
 					adidUser.persistOnNotExist();
 				}
 			}
-
 		}
 	}
 
 	public static void main(String[] args) throws IOException, SQLException, ParseException, IllegalArgumentException, IllegalAccessException, InstantiationException
 	{
-		new AdidUserFindDemo("/Volumes/lake/9-临时数据/20150417.txt_00").run();
+		new AdidUserFindDemo(args[0]).run();
 	}
 }
