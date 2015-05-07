@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 
@@ -14,9 +16,12 @@ import drizzt.domain.BroadbandLog;
 import drizzt.match.DomainMatch;
 import drizzt.match.KeywordMatch;
 
+@Slf4j
 public class AdidUserFindDemo
 {
 	private File file;
+
+	private int count;
 
 	public AdidUserFindDemo(String file) throws SQLException
 	{
@@ -67,11 +72,17 @@ public class AdidUserFindDemo
 					adidUser.persistOnNotExist();
 				}
 			}
+
+			count++;
 		}
+
+		log.info("success -- {} -- {}", count, file.getPath());
 	}
 
 	public static void main(String[] args) throws IOException, SQLException, ParseException, IllegalArgumentException, IllegalAccessException, InstantiationException
 	{
+		log.info("adid user find v0.2 begin");
 		new AdidUserFindDemo(args[0]).run();
+
 	}
 }
