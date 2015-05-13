@@ -21,7 +21,7 @@ public class MappingDemo
 		user.setAdid("a502045502519705");
 		user.setAdxtype("cms.tanx.com");
 		//user.setAdxcookie("cna=Rqq2DXOOchACATwP+TgVy67S");
-		user.setAdxcookie("cna=zMKPDVnE+z8CAT3oC8XsM6K9; tcm=9SPtHPrxznzO+E3Pq4tR8b1ZPYJxZPsVKMBB1lyuSzOPyReahKhINaJNQMm9MiaOp20YPXUQB4H4OOQ3p/z3ng==");
+		user.setAdxcookie("cna=jH+ODdGp3ngCAT3oC8X7qQf2; cnaui=140126313");
 		
 
 		AdxUser result = mapping.mapping(user);
