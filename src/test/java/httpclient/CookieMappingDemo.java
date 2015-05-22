@@ -29,7 +29,17 @@ public class CookieMappingDemo
 {
 	public static void main(String[] args) throws ClientProtocolException, IOException, SQLException
 	{
-		new CookieMappingDemo().run();
+		while (true)
+		{
+			try
+			{
+				new CookieMappingDemo().run();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private Map<String, String> mappingUrls = new HashMap<String, String>();
@@ -43,7 +53,7 @@ public class CookieMappingDemo
 		this.mappingUrls.put("cm.allyes.com", "http://cm.allyes.com/pixel?allyes_dspid=174&allyes_cm&ext_data=");
 	}
 
-	public void run() throws SQLException
+	public void run() throws SQLException, InterruptedException
 	{
 		List<AdxUser> adxUsers = GlobalComponents.db.getRunner().query("select * from " + BaseBean.getTableName(AdxUser.class) + " where dspurl is null limit 100", new BeanListHandler<AdxUser>(AdxUser.class));
 
@@ -67,7 +77,10 @@ public class CookieMappingDemo
 			if (result != null)
 			{
 				log.info(result.getDspurl());
+				GlobalComponents.db.getRunner().update("update drizzt_data_adxuser set dspurl=? where adid=?", result.getDspurl(), result.getAdid());
 			}
+
+			Thread.sleep(2000);
 		}
 	}
 
