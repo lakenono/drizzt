@@ -55,7 +55,7 @@ public class CookieMappingDemo
 
 	public void run() throws SQLException, InterruptedException
 	{
-		List<AdxUser> adxUsers = GlobalComponents.db.getRunner().query("select * from " + BaseBean.getTableName(AdxUser.class) + " where dspurl is null limit 100", new BeanListHandler<AdxUser>(AdxUser.class));
+		List<AdxUser> adxUsers = GlobalComponents.db.getRunner().query("select * from " + BaseBean.getTableName(AdxUser.class) + " where dspurl = '' limit 100", new BeanListHandler<AdxUser>(AdxUser.class));
 
 		for (AdxUser adxUser : adxUsers)
 		{
