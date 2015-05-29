@@ -80,7 +80,7 @@ public class CookieMappingDemo
 				GlobalComponents.db.getRunner().update("update drizzt_data_adxuser set dspurl=? where adid=?", result.getDspurl(), result.getAdid());
 			}
 
-			Thread.sleep(2000);
+			Thread.sleep(0);
 		}
 	}
 
