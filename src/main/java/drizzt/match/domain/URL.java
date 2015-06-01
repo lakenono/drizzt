@@ -7,10 +7,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@DBTable(name = "drizzt_business_id")
+@DBTable(name = "drizzt_business_url")
 public class URL extends BaseBean{
 	private String campaignId;
-	private String feature;
+	private String host;
+	private String urlFeature;
 	
 	public static void main(String[] args) throws Exception{
 		new URL().buildTable();

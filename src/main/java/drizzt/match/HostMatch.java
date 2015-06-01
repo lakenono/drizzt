@@ -12,45 +12,40 @@ import drizzt.domain.AdidUser;
 import drizzt.domain.BroadbandLog;
 import drizzt.match.domain.Host;
 
+/**
+ * host 匹配
+ * 
+ * @author shilei
+ *
+ */
 @Slf4j
-public class HostMatch
-{
+public class HostMatch {
 	private Map<String, List<String>> hosts = new HashMap<String, List<String>>();
 
-	public HostMatch() throws SQLException
-	{
-		for (Host bean : BaseBean.getAll(Host.class))
-		{
-			// 如果不存在 
-			if (!hosts.containsKey(bean.getHost()))
-			{
+	public HostMatch() throws SQLException {
+		for (Host bean : BaseBean.getAll(Host.class)) {
+			// 如果不存在
+			if (!hosts.containsKey(bean.getHost())) {
 				List<String> campaignIds = new ArrayList<String>();
 				campaignIds.add(bean.getCampaignId());
 
 				this.hosts.put(bean.getHost(), campaignIds);
-			}
-			else
-			{
+			} else {
 				// 如果存在. 继续追加活动id
 				this.hosts.get(bean.getHost()).add(bean.getCampaignId());
 			}
 		}
 	}
 
-	public List<AdidUser> match(BroadbandLog bean)
-	{
-		if (!this.hosts.containsKey(bean.getHost()))
-		{
+	public List<AdidUser> match(BroadbandLog bean) {
+		if (!this.hosts.containsKey(bean.getHost())) {
 			return null;
-		}
-		else
-		{
+		} else {
 			List<String> campaignIds = this.hosts.get(bean.getHost());
 
 			List<AdidUser> result = new ArrayList<AdidUser>();
 
-			for (String campaignId : campaignIds)
-			{
+			for (String campaignId : campaignIds) {
 				AdidUser user = new AdidUser();
 				user.setAdid(bean.getAdid());
 				user.setCampaignId(campaignId);
