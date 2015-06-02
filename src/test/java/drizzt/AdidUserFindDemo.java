@@ -14,7 +14,9 @@ import org.apache.commons.io.LineIterator;
 import drizzt.domain.AdidUser;
 import drizzt.domain.BroadbandLog;
 import drizzt.match.DomainMatch;
+import drizzt.match.HostMatch;
 import drizzt.match.KeywordMatch;
+import drizzt.match.URLMatch;
 
 @Slf4j
 public class AdidUserFindDemo
@@ -28,10 +30,14 @@ public class AdidUserFindDemo
 		this.file = new File(file);
 		this.domainMatch = new DomainMatch();
 		this.keywordMatch = new KeywordMatch();
+		this.urlMatch = new URLMatch();
+		this.hostMatch = new HostMatch();
 	}
 
 	private DomainMatch domainMatch;
 	private KeywordMatch keywordMatch;
+	private HostMatch hostMatch;
+	private URLMatch urlMatch;
 
 	private void run() throws IOException, ParseException, IllegalArgumentException, IllegalAccessException, InstantiationException, SQLException
 	{
@@ -52,6 +58,13 @@ public class AdidUserFindDemo
 
 			// kw 人群
 			List<AdidUser> keywordAdidUsers = this.keywordMatch.match(bean);
+			
+			// host 人群
+			List<AdidUser> hostAdidUsers = this.hostMatch.match(bean);
+			
+			// url 人群
+			List<AdidUser> urlAdidUsers = this.urlMatch.match(bean);
+			
 
 			// 根据 url kw domain的优先级持久化用户清单 TODO 升级update
 			// 0. url
@@ -72,7 +85,25 @@ public class AdidUserFindDemo
 					adidUser.persistOnNotExist();
 				}
 			}
-
+			
+			// 3. host
+			if(hostAdidUsers!= null && !hostAdidUsers.isEmpty())
+			{
+				for (AdidUser adidUser : hostAdidUsers)
+				{
+					adidUser.persistOnNotExist();
+				}
+			}
+			
+			// 4. url
+			if(urlAdidUsers!= null && !urlAdidUsers.isEmpty())
+			{
+				for (AdidUser adidUser : urlAdidUsers)
+				{
+					adidUser.persistOnNotExist();
+				}
+			}
+			
 			count++;
 		}
 

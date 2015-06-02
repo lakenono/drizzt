@@ -1,5 +1,6 @@
 package drizzt.match;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public class URLMatch {
 	private URLRule urlRule;
 	private Map<String, List<String>> urls; // key：domain + feature
 
-	public URLMatch() throws Exception {
+	public URLMatch() throws SQLException   {
 		urlRule = new URLRule();
 		urls = new HashMap<>();
 
