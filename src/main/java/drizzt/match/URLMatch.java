@@ -40,31 +40,54 @@ public class URLMatch {
 			compaignIds.add(u.getCampaignId());
 		}
 	}
-
-	public List<AdidUser> match(BroadbandLog bean) {
-		String feature = urlRule.match(bean.getUrl(), bean.getHost());
-		if (StringUtils.isBlank(feature)) {
+	
+	public List<AdidUser> matchUrl(String url,String adid){
+		//空url
+		if(StringUtils.equals(url, "--")|| StringUtils.isBlank(url)){
 			return null;
 		}
-
-		String key = bean.getHost() + feature;
-		if (urls.containsKey(key)) {
-			List<AdidUser> users = new ArrayList<>();
-			List<String> campaignIds = urls.get(key);
-
-			for (String campaignId : campaignIds) {
-				AdidUser user = new AdidUser();
-				user.setAdid(bean.getAdid());
-				user.setCampaignId(campaignId);
-				user.setType("url");
-
-				users.add(user);
+		try {
+			String host = new java.net.URL(url).getHost();
+			String feature = urlRule.match(url, host);
+			if (StringUtils.isBlank(feature)) {
+				return null;
 			}
 
-			return users;
-		}
+			String key = host + feature;
+			if (urls.containsKey(key)) {
+				List<AdidUser> users = new ArrayList<>();
+				List<String> campaignIds = urls.get(key);
 
+				for (String campaignId : campaignIds) {
+					AdidUser user = new AdidUser();
+					user.setAdid(adid);
+					user.setCampaignId(campaignId);
+					user.setType("url");
+
+					users.add(user);
+				}
+
+				return users;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+
+	public List<AdidUser> match(BroadbandLog bean) {
+		List<AdidUser> fromUrl = matchUrl(bean.getUrl(),bean.getAdid());
+		List<AdidUser> fromRefer = matchUrl(bean.getRef(),bean.getAdid());
+
+		if(fromUrl!=null){
+			if(fromRefer!=null){
+				fromUrl.addAll(fromRefer);
+			}
+			return fromUrl;
+		}else{
+			return fromRefer;
+		}
+		
 	}
 
 }
