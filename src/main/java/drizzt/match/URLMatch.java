@@ -41,13 +41,16 @@ public class URLMatch {
 		}
 	}
 	
-	public List<AdidUser> matchUrl(String url,String adid){
+	public List<AdidUser> matchUrl(String url,String host,String adid){
 		//空url
 		if(StringUtils.equals(url, "--")|| StringUtils.isBlank(url)){
 			return null;
 		}
 		try {
-			String host = new java.net.URL(url).getHost();
+			if(StringUtils.isBlank(host)){
+				host = new java.net.URL(url).getHost();
+			}
+			
 			String feature = urlRule.match(url, host);
 			if (StringUtils.isBlank(feature)) {
 				return null;
@@ -76,8 +79,8 @@ public class URLMatch {
 	}
 
 	public List<AdidUser> match(BroadbandLog bean) {
-		List<AdidUser> fromUrl = matchUrl(bean.getUrl(),bean.getAdid());
-		List<AdidUser> fromRefer = matchUrl(bean.getRef(),bean.getAdid());
+		List<AdidUser> fromUrl = matchUrl(bean.getUrl(),bean.getHost(),bean.getAdid());
+		List<AdidUser> fromRefer = matchUrl(bean.getRef(),null,bean.getAdid());
 
 		if(fromUrl!=null){
 			if(fromRefer!=null){
