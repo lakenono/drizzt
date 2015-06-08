@@ -46,7 +46,7 @@ public class URLMatchTest {
 
 	@Test
 	public void testLog() throws Exception {
-		String fileName = "/Users/shilei/Root/Develop/Test/2015060200.txt";
+		String fileName = "/Users/shilei/Root/DevelopSpace/Test/2015060200.txt";
 		LineIterator lineIterator = FileUtils.lineIterator(new File(fileName));
 
 		while (lineIterator.hasNext()) {
