@@ -81,7 +81,7 @@ public class URLMatchTest {
 	@Test
 	public void testPattern() throws Exception {
 		String url = "http://item.jd.com/1217501.html";
-		String pattern = "http://item.jd.com/(\\d+).html";
+		String pattern = "item\\.jd\\.com/(\\d{1,})\\.html";
 
 		Matcher matcher = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(url);
 
