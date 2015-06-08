@@ -1,4 +1,4 @@
-package drizzt.rule.id;
+package drizzt.rule.url;
 
 import java.util.regex.Pattern;
 

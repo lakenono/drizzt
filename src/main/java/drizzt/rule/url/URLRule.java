@@ -1,4 +1,4 @@
-package drizzt.rule.id;
+package drizzt.rule.url;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

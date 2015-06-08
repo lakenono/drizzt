@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import drizzt.domain.AdidUser;
 import drizzt.domain.BroadbandLog;
 import drizzt.match.domain.URL;
-import drizzt.rule.id.URLRule;
+import drizzt.rule.url.URLRule;
 
 /**
  * url 匹配
