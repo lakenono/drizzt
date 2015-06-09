@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<!-- 数据来源：命名规则省全拼，小写 -->
+	<datasource>shanghai</datasource>
+</Configuration>
+
