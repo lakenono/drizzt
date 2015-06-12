@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -59,15 +60,18 @@ public class URLMatchTest {
 				continue;
 			}
 			
-//			if(StringUtils.contains(bean.getUrl(), "jd.com")){
-//				System.out.println(bean.getUrl());
+			System.out.println(bean.getUrl());
+			System.out.println(bean.getRef());
+			System.out.println("-----------------");
+			
+//			String url = "detail.tmall.com";
+//			if(StringUtils.contains(bean.getUrl(), url)||StringUtils.contains(bean.getRef(), url)){
+//				System.out.println(bean.getUrl()+"|" + bean.getRef());
 //			}
 
 			List<AdidUser> users = urlMatch.match(bean);
 
 			if (users != null && !users.isEmpty()) {
-				System.out.println(bean.getUrl());
-				System.out.println(bean.getRef());
 
 				for (AdidUser u : users) {
 					System.out.println(u.getCampaignId() + " | " + u.getAdid() + " | " + u.getType());

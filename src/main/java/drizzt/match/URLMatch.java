@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import lakenono.db.BaseBean;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +15,7 @@ import drizzt.domain.AdidUser;
 import drizzt.domain.BroadbandLog;
 import drizzt.match.domain.URL;
 import drizzt.rule.url.URLRule;
+import drizzt.rule.url.URLRuleHostSiteRefBean;
 
 /**
  * url 匹配
@@ -21,16 +23,29 @@ import drizzt.rule.url.URLRule;
  * @author shilei
  *
  */
+@Slf4j
 public class URLMatch {
 	private URLRule urlRule;
-	private Map<String, List<String>> urls; // key：domain + feature
+	private Map<String,String> hostSiteMapper; //站点，hosh映射，用于tmall.com，taobao.com这个样的host映射到同一个网站，相当于同义词表
+	private Map<String, List<String>> urls; // key：site + feature
 
 	public URLMatch() throws SQLException   {
 		urlRule = new URLRule();
+		
+		hostSiteMapper = new HashMap<>();
+		
 		urls = new HashMap<>();
-
-		for (URL u : BaseBean.getAll(URL.class)) {
-			String key = u.getHost() + u.getUrlFeature();
+		
+		for(URLRuleHostSiteRefBean m : BaseBean.getAll(URLRuleHostSiteRefBean.class)){
+			hostSiteMapper.put(m.getHost(), m.getSite());
+			log.debug(m.toString());
+		}
+		
+		List<URL> urlList = BaseBean.getAll(URL.class);
+		log.debug("url campaigns :{} ",urlList.size());
+		
+		for (URL u : urlList) {
+			String key = u.getSite() + u.getUrlFeature();
 			List<String> compaignIds = urls.get(key);
 			if (compaignIds == null) {
 				compaignIds = new ArrayList<>();
@@ -51,12 +66,20 @@ public class URLMatch {
 				host = new java.net.URL(url).getHost();
 			}
 			
+			//获取host对应的站点名 site
+			String site = hostSiteMapper.get(host);
+			if(StringUtils.isBlank(site)){
+				return null;
+			}
+			
+			//根据host match 获得标志
 			String feature = urlRule.match(url, host);
 			if (StringUtils.isBlank(feature)) {
 				return null;
 			}
-
-			String key = host + feature;
+			
+			//根据site 找到对应的站点
+			String key = site + feature;
 			if (urls.containsKey(key)) {
 				List<AdidUser> users = new ArrayList<>();
 				List<String> campaignIds = urls.get(key);

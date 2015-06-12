@@ -9,9 +9,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @DBTable(name = "drizzt_business_url")
 public class URL extends BaseBean{
-	private String campaignId;
-	private String host;
-	private String urlFeature;
+	private String campaignId; 
+	private String site; //站点名
+	private String urlFeature; // url特征
 	
 	public static void main(String[] args) throws Exception{
 		new URL().buildTable();

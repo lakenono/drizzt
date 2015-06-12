@@ -13,8 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import drizzt.domain.BroadbandLog;
-
 public class URLRuleTest {
 	
 	private List<String> hosts ;
@@ -34,26 +32,18 @@ public class URLRuleTest {
 	
 	@Test
 	public void test() throws Exception{
-		String fileName = "/Users/shilei/Root/DevelopSpace/Test/2015060200.txt";
-		LineIterator lineIterator = FileUtils.lineIterator(new File(fileName));
+		String fileName = "drizzt/rule/url/testurl.txt";
+		LineIterator lineIterator = FileUtils.lineIterator(new File(URLRuleTest.class.getResource("/").getFile(),fileName));
 
 		while (lineIterator.hasNext()) {
-			String line = lineIterator.nextLine();
-
-			BroadbandLog bean = BroadbandLog.convertLine(line);
+			String url = lineIterator.nextLine();
 
 			
-			if (bean == null) {
+			if (StringUtils.isBlank(url)) {
 				continue;
 			}
 			
-//			System.out.println(bean);
-			
-			String url = bean.getUrl();
-			String refer = bean.getRef();
-			
 			match(url);
-			match(refer);
 		}
 	}
 		
@@ -61,8 +51,6 @@ public class URLRuleTest {
 		if(StringUtils.equals(url, "--")){
 			return ;
 		}
-		
-		
 		
 		String host = new URL(url).getHost();
 		
