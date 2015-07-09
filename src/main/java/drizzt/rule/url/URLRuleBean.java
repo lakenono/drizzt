@@ -15,12 +15,11 @@ public class URLRuleBean extends BaseBean {
 	private String id;
 	private String name;
 	private String host;
+	private String site;//站点
 	private String patternstr;
 	private String action;
 	private String type;
 	private String classify;
-	// private String decode;
-	private String checkdate;
 
 	// 非持久化属性
 	@DBField(serialization=false)
