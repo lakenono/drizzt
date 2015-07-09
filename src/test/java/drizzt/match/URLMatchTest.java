@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,8 +25,8 @@ public class URLMatchTest {
 	@Test
 	public void test() {
 		BroadbandLog log = new BroadbandLog();
-		String host = "item.jd.com";
-		String url = "http://item.jd.com/1470502330.html";
+		String host = "item.taobao.com";
+		String url = "https://item.taobao.com/item.htm?id=21157784877";
 		String adid = "lurenjia";
 
 		log.setAdid(adid);
