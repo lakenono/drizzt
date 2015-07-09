@@ -35,4 +35,8 @@ public class TerminalBean extends BaseBean {
 		public static final String MAC = "mac";
 		public static final String PHONE_NO = "phone_no";
 	}
+	
+	public static void main(String[] args) throws Exception{
+		new TerminalBean().buildTable();
+	}
 }
