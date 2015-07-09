@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
 
-import drizzt.recognize.terminal.TerminalBean.TerminalFlag;
+import drizzt.rule.terminal.TerminalBean.TerminalFlag;
 
 /**
  * 终端识别

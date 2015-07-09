@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import drizzt.recognize.terminal.TerminalBean.TerminalFlag;
+import drizzt.rule.terminal.TerminalBean.TerminalFlag;
 
 public class TerminalRuleTest {
 
