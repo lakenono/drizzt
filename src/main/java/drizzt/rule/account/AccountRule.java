@@ -21,37 +21,37 @@ import drizzt.rule.account.AccountRuleBean.AccountRuleMatchSource;
  */
 @Slf4j
 public class AccountRule {
-	// key matchSource，二级key host： matchSource：url，cookie， value 规则列表
+	// key host，二级key matchSource： matchSource：url，cookie， value 规则列表
 	private Map<String, Map<String, List<AccountRuleBean>>> rules = new HashMap<String, Map<String, List<AccountRuleBean>>>();
 
 	public AccountRule() throws Exception {
 		List<AccountRuleBean> dbRules = BaseBean.getAll(AccountRuleBean.class);
 
 		for (AccountRuleBean r : dbRules) {
-			Map<String, List<AccountRuleBean>> matchSourceRules = rules.get(r.getMatchSource());
-			if (matchSourceRules == null) {
-				matchSourceRules = new HashMap<String, List<AccountRuleBean>>();
-				rules.put(r.getMatchSource(), matchSourceRules);
-			}
-
-			List<AccountRuleBean> hostRules = matchSourceRules.get(r.getHost());
+			Map<String, List<AccountRuleBean>> hostRules = rules.get(r.getHost());
 			if (hostRules == null) {
-				hostRules = new LinkedList<AccountRuleBean>();
-				matchSourceRules.put(r.getHost(), hostRules);
+				hostRules = new HashMap<String, List<AccountRuleBean>>();
+				rules.put(r.getHost(), hostRules);
 			}
 
-			hostRules.add(r);
+			List<AccountRuleBean> matchSourceRules = hostRules.get(r.getMatchSource());
+			if (matchSourceRules == null) {
+				matchSourceRules = new LinkedList<AccountRuleBean>();
+				hostRules.put(r.getMatchSource(), matchSourceRules);
+			}
+
+			matchSourceRules.add(r);
 		}
 
 		log.info("account init : rule count {} ", dbRules.size());
 	}
 
 	public List<AccountBean> matchUrl(String host, String url) {
-		return match(host, url, AccountRuleMatchSource.URL);
+		return match(host, AccountRuleMatchSource.URL, url);
 	}
 
-	public List<AccountBean> matchCookie(String host, String cookie) {
-		return match(host, cookie, AccountRuleMatchSource.COOKIE);
+	public List<AccountBean> matchCookie(String host, String cookies) {
+		return match(host, AccountRuleMatchSource.COOKIE, cookies);
 	}
 
 	/**
@@ -63,24 +63,23 @@ public class AccountRule {
 	 * @param url
 	 * @return
 	 */
-	public List<AccountBean> match(String host, String matchStr, String matchSource) {
+	public List<AccountBean> match(String host, String matchSource, String matchStr) {
 		if (StringUtils.isBlank(host) || StringUtils.isBlank(matchStr) || StringUtils.isBlank(matchSource)) {
 			return null;
 		}
 
-		Map<String, List<AccountRuleBean>> matchSourceRules = rules.get(matchSource);
-		if (matchSourceRules == null) {
-			log.warn("{} not exist!", matchSource);
-			return null;
-		}
-
-		List<AccountRuleBean> hostRules = matchSourceRules.get(host);
+		Map<String, List<AccountRuleBean>> hostRules = rules.get(host);
 		if (hostRules == null) {
 			return null;
 		}
 
+		List<AccountRuleBean> matchSourceRules = hostRules.get(matchSource);
+		if (matchSourceRules == null) {
+			return null;
+		}
+
 		List<AccountBean> accounts = new LinkedList<AccountBean>();
-		for (AccountRuleBean r : hostRules) {
+		for (AccountRuleBean r : matchSourceRules) {
 			Matcher matcher = r.getPattern().matcher(matchStr);
 
 			if (matcher.find()) {

@@ -72,18 +72,18 @@ public class TerminalRule {
 		List<TerminalBean> terminals = new LinkedList<TerminalBean>();
 
 		for (String terminalFlag : terminalFlags) {
-			String terminalInfo = match(host, terminalFlag, url);
-			if (StringUtils.isBlank(terminalInfo)) {
+			TerminalBean terminal = match(host, terminalFlag, url);
+			if (terminal == null) {
 				continue;
 			}
-			terminals.add(new TerminalBean(terminalFlag, terminalInfo));
+			terminals.add(terminal);
 		}
 
 		return terminals;
 	}
 
 	// 根据域名匹配
-	private String match(String host, String terminalFlag, String url) {
+	private TerminalBean match(String host, String terminalFlag, String url) {
 		Map<String, List<TerminalRuleBean>> hostRules = rules.get(host);
 
 		if (hostRules == null) {
@@ -99,7 +99,10 @@ public class TerminalRule {
 			Matcher matcher = r.getPattern().matcher(url);
 
 			if (matcher.find()) {
-				return matcher.group(1);
+				String terminalInfo = matcher.group(1);
+				if (StringUtils.isNoneBlank(terminalInfo)) {
+					return new TerminalBean(terminalFlag, terminalInfo);
+				}
 			}
 		}
 		return null;
