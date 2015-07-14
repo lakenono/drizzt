@@ -99,9 +99,14 @@ public class TerminalRule {
 			Matcher matcher = r.getPattern().matcher(url);
 
 			if (matcher.find()) {
-				String terminalInfo = matcher.group(1);
-				if (StringUtils.isNoneBlank(terminalInfo)) {
-					return new TerminalBean(terminalFlag, terminalInfo);
+				try {
+					String terminalInfo = matcher.group(1);
+					if (StringUtils.isNoneBlank(terminalInfo)) {
+						return new TerminalBean(terminalFlag, terminalInfo);
+					}
+				} catch (IndexOutOfBoundsException e) {
+					e.printStackTrace();
+					log.error("regex error : {} ", r);
 				}
 			}
 		}

@@ -55,12 +55,17 @@ public class URLRule extends BaseBean {
 			Matcher matcher = r.getPattern().matcher(url);
 
 			if (matcher.find()) {
-				String urlFeture = matcher.group(1);
-				urlBean = new URLBean();
-				urlBean.setUrlFeture(urlFeture);
-				urlBean.setSite(r.getSite());
-				urlBean.setType(r.getClassify());
-				urlBean.setAction(r.getAction());
+				try {
+					String urlFeture = matcher.group(1);
+					urlBean = new URLBean();
+					urlBean.setUrlFeture(urlFeture);
+					urlBean.setSite(r.getSite());
+					urlBean.setType(r.getClassify());
+					urlBean.setAction(r.getAction());
+				} catch (IndexOutOfBoundsException e) {
+					e.printStackTrace();
+					log.error("regex error : {} ", r);
+				}
 			}
 		}
 		return urlBean;

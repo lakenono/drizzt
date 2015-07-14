@@ -86,16 +86,21 @@ public class AccountRule {
 			Matcher matcher = r.getPattern().matcher(matchStr);
 
 			if (matcher.find()) {
-				String account = matcher.group(1);
-				if (StringUtils.isBlank(account)) {
-					continue;
-				}
-				AccountBean accountBean = new AccountBean();
-				accountBean.setAccount(account);
-				accountBean.setAccountType(r.getAccountType());
-				accountBean.setSite(r.getSite() != null ? r.getSite() : r.getHost());
+				try {
+					String account = matcher.group(1);
+					if (StringUtils.isBlank(account)) {
+						continue;
+					}
+					AccountBean accountBean = new AccountBean();
+					accountBean.setAccount(account);
+					accountBean.setAccountType(r.getAccountType());
+					accountBean.setSite(r.getSite() != null ? r.getSite() : r.getHost());
 
-				accounts.add(accountBean);
+					accounts.add(accountBean);
+				} catch (IndexOutOfBoundsException e) {
+					e.printStackTrace();
+					log.error("regex error : {} ", r);
+				}
 			}
 		}
 		return accounts;
