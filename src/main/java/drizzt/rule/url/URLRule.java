@@ -3,14 +3,15 @@ package drizzt.rule.url;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import org.apache.commons.lang3.StringUtils;
-
 import lakenono.db.BaseBean;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class URLRule extends BaseBean {
@@ -51,21 +52,26 @@ public class URLRule extends BaseBean {
 		}
 
 		URLBean urlBean = null;
-		for (URLRuleBean r : idRules) {
-			Matcher matcher = r.getPattern().matcher(url);
 
-			if (matcher.find()) {
-				try {
+		Iterator<URLRuleBean> iter = idRules.iterator();
+		while (iter.hasNext()) {
+			URLRuleBean r = iter.next();
+
+			try {
+				Matcher matcher = r.getPattern().matcher(url);
+
+				if (matcher.find()) {
 					String urlFeture = matcher.group(1);
 					urlBean = new URLBean();
 					urlBean.setUrlFeture(urlFeture);
 					urlBean.setSite(r.getSite());
 					urlBean.setType(r.getClassify());
 					urlBean.setAction(r.getAction());
-				} catch (IndexOutOfBoundsException e) {
-					e.printStackTrace();
-					log.error("regex error : {} ", r);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("regex error : {} ", r);
+				iter.remove();
 			}
 		}
 		return urlBean;

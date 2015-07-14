@@ -1,6 +1,7 @@
 package drizzt.rule.account;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -82,11 +83,15 @@ public class AccountRule {
 		}
 
 		List<AccountBean> accounts = new LinkedList<AccountBean>();
-		for (AccountRuleBean r : matchSourceRules) {
-			Matcher matcher = r.getPattern().matcher(matchStr);
 
-			if (matcher.find()) {
-				try {
+		Iterator<AccountRuleBean> iter = matchSourceRules.iterator();
+		while (iter.hasNext()) {
+			AccountRuleBean r = iter.next();
+
+			try {
+				Matcher matcher = r.getPattern().matcher(matchStr);
+
+				if (matcher.find()) {
 					String account = matcher.group(1);
 					if (StringUtils.isBlank(account)) {
 						continue;
@@ -97,10 +102,11 @@ public class AccountRule {
 					accountBean.setSite(r.getSite() != null ? r.getSite() : r.getHost());
 
 					accounts.add(accountBean);
-				} catch (IndexOutOfBoundsException e) {
-					e.printStackTrace();
-					log.error("regex error : {} ", r);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("regex error : {} ", r);
+				iter.remove();
 			}
 		}
 		return accounts;

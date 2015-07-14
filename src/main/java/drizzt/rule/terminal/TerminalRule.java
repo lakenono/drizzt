@@ -1,6 +1,7 @@
 package drizzt.rule.terminal;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -95,21 +96,26 @@ public class TerminalRule {
 			return null;
 		}
 
-		for (TerminalRuleBean r : flagRules) {
-			Matcher matcher = r.getPattern().matcher(url);
+		Iterator<TerminalRuleBean> iter = flagRules.iterator();
+		while (iter.hasNext()) {
+			TerminalRuleBean r = iter.next();
 
-			if (matcher.find()) {
-				try {
+			try {
+				Matcher matcher = r.getPattern().matcher(url);
+
+				if (matcher.find()) {
 					String terminalInfo = matcher.group(1);
 					if (StringUtils.isNoneBlank(terminalInfo)) {
 						return new TerminalBean(terminalFlag, terminalInfo);
 					}
-				} catch (IndexOutOfBoundsException e) {
-					e.printStackTrace();
-					log.error("regex error : {} ", r);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("regex error : {} ", r);
+				iter.remove();
 			}
 		}
+
 		return null;
 	}
 

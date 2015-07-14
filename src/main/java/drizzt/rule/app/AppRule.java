@@ -1,6 +1,7 @@
 package drizzt.rule.app;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,17 +53,26 @@ public class AppRule {
 		}
 
 		AppBean app = null;
-		for (AppRuleBean r : appRules) {
-			// host匹配识别
-			if (r.getPattern() == null) {
-				app = new AppBean(r.getAppId(), r.getAction());
-				continue;
-			}
 
-			// 正则匹配识别
-			Matcher matcher = r.getPattern().matcher(url);
-			if (matcher.find()) {
-				app = new AppBean(r.getAppId(), r.getAction());
+		Iterator<AppRuleBean> iter = appRules.iterator();
+		while (iter.hasNext()) {
+			AppRuleBean r = iter.next();
+
+			try {
+				if (r.getPattern() == null) {
+					app = new AppBean(r.getAppId(), r.getAction());
+					continue;
+				}
+
+				// 正则匹配识别
+				Matcher matcher = r.getPattern().matcher(url);
+				if (matcher.find()) {
+					app = new AppBean(r.getAppId(), r.getAction());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("regex error : {} ", r);
+				iter.remove();
 			}
 		}
 
