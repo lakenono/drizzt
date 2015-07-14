@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @DBTable(name = "drizzt_data_app")
 public class AppBean extends BaseBean {
 	@DBConstraintPK
-	private String adId;
+	private String adid;
 	@DBConstraintPK
 	private String appId;
 	private String action;
 
 	public AppBean(String appId, String action) {
-		this.adId = appId;
+		this.appId = appId;
 		this.action = action;
 	}
 

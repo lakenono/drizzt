@@ -28,6 +28,9 @@ public class AccountRule {
 		List<AccountRuleBean> dbRules = BaseBean.getAll(AccountRuleBean.class);
 
 		for (AccountRuleBean r : dbRules) {
+			if (StringUtils.endsWith(r.getRegex(), "-1")) {
+				continue;
+			}
 			Map<String, List<AccountRuleBean>> hostRules = rules.get(r.getHost());
 			if (hostRules == null) {
 				hostRules = new HashMap<String, List<AccountRuleBean>>();

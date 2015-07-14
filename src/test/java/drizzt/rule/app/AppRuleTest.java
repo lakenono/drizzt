@@ -22,7 +22,7 @@ public class AppRuleTest {
 		if (app == null) {
 			Assert.fail("match fail!");
 		}
-		Assert.assertEquals("match fail!", "3900", app.getAdId());
+		Assert.assertEquals("match fail!", "3900", app.getAppId());
 		System.out.println("task() : "+app);
 	}
 
@@ -35,7 +35,7 @@ public class AppRuleTest {
 		if (app == null) {
 			Assert.fail("match fail!");
 		}
-		Assert.assertEquals("match fail!", "3914", app.getAdId());
+		Assert.assertEquals("match fail!", "3914", app.getAppId());
 		System.out.println("taskNoRegex() : "+app);
 	}
 
