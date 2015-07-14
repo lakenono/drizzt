@@ -1,6 +1,7 @@
 package drizzt.recognize.domain;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -12,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 @Data
+@Slf4j
 public class MaienLog {
 	private String uid;
 	private String host;
@@ -22,31 +24,36 @@ public class MaienLog {
 	private String ua;
 	private String cookie;
 
-	public MaienLog(String log) {
-		String[] records = StringUtils.splitByWholeSeparatorPreserveAllTokens(log, "\t");
+	public static MaienLog convertLine(String line) {
+		String[] records = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, "\t");
 		if (records.length != 12) {
+			log.warn("records fields error : {}", records.length);
+			return null;
 		}
 
-		uid = records[1];
-		host = handleHost(records[5]);
-		url = handleUrl(host, records[6]);
-		refer = filterNull(records[7]);
-		ua = filterNull(records[8]);
-		cookie = filterNull(records[11]);
+		MaienLog maienLog = new MaienLog();
+		maienLog.setUid(records[1]);
+		maienLog.setHost(handleHost(records[5]));
+		maienLog.setUrl(handleUrl(maienLog.getHost(), records[6]));
+		maienLog.setRefer(filterNull(records[7]));
+		maienLog.setUa(filterNull(records[8]));
+		maienLog.setCookie(filterNull(records[11]));
+
+		return maienLog;
 	}
 
-	private String handleHost(String host) {
+	private static String handleHost(String host) {
 		if (StringUtils.endsWith(host, ":80")) {
 			host = StringUtils.substringBefore(host, ":");
 		}
 		return host;
 	}
 
-	private String handleUrl(String host, String url) {
+	private static String handleUrl(String host, String url) {
 		return "http://" + host + url;
 	}
 
-	private String filterNull(String content) {
+	private static String filterNull(String content) {
 		if (StringUtils.equals(content, "(NULL)")) {
 			return "";
 		}

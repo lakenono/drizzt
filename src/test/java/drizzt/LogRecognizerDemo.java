@@ -57,7 +57,10 @@ public class LogRecognizerDemo {
 		while (lineIterator.hasNext()) {
 			String line = lineIterator.nextLine();
 
-			MaienLog maienLog = new MaienLog(line);
+			MaienLog maienLog = MaienLog.convertLine(line);
+			if (maienLog == null) {
+				continue;
+			}
 
 			// 应用识别
 			AppBean app = appRecognizer.recognize(maienLog);
