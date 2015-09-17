@@ -1,6 +1,6 @@
 package drizzt.rule.url;
 
-import lakenono.db.BaseBean;
+import lakenono.db.DBBean;
 import lakenono.db.annotation.DBConstraintPK;
 import lakenono.db.annotation.DBTable;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @DBTable(name = "drizzt_data_goods")
-public class URLBean extends BaseBean {
+public class URLBean extends DBBean {
 
 	@DBConstraintPK
 	private String adid;
@@ -27,6 +27,6 @@ public class URLBean extends BaseBean {
 	private String type;
 
 	public static void main(String[] args) throws Exception {
-		new URLBean().buildTable();
+		DBBean.createTable(URLBean.class);
 	}
 }

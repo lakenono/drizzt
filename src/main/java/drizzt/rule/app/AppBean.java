@@ -1,6 +1,7 @@
 package drizzt.rule.app;
 
-import lakenono.db.BaseBean;
+import drizzt.rule.account.AccountBean;
+import lakenono.db.DBBean;
 import lakenono.db.annotation.DBConstraintPK;
 import lakenono.db.annotation.DBTable;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @DBTable(name = "drizzt_data_app")
-public class AppBean extends BaseBean {
+public class AppBean extends DBBean {
 	@DBConstraintPK
 	private String adid;
 	@DBConstraintPK
@@ -24,6 +25,6 @@ public class AppBean extends BaseBean {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new AppBean().buildTable();
+		AccountBean.createTable(AppBean.class);
 	}
 }

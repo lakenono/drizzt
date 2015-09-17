@@ -1,6 +1,6 @@
 package drizzt.rule.account;
 
-import lakenono.db.BaseBean;
+import lakenono.db.DBBean;
 import lakenono.db.annotation.DBConstraintPK;
 import lakenono.db.annotation.DBTable;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @DBTable(name = "drizzt_data_account")
-public class AccountBean extends BaseBean {
+public class AccountBean extends DBBean {
 	// 用户id
 	@DBConstraintPK
 	private String adid;
@@ -23,8 +23,8 @@ public class AccountBean extends BaseBean {
 	private String accountType;
 	// 站点标志
 	private String site;
-	
-	public static void main(String[] args) throws Exception{
-		new AccountBean().buildTable();
+
+	public static void main(String[] args) throws Exception {
+		DBBean.createTable(AccountBean.class);
 	}
 }

@@ -105,7 +105,7 @@ public class TerminalRule {
 
 				if (matcher.find()) {
 					String terminalInfo = matcher.group(1);
-					if (StringUtils.isNoneBlank(terminalInfo)) {
+					if (StringUtils.isNotBlank(terminalInfo)) {
 						return new TerminalBean(terminalFlag, terminalInfo);
 					}
 				}

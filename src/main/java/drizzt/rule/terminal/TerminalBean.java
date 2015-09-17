@@ -1,6 +1,6 @@
 package drizzt.rule.terminal;
 
-import lakenono.db.BaseBean;
+import lakenono.db.DBBean;
 import lakenono.db.annotation.DBConstraintPK;
 import lakenono.db.annotation.DBTable;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @DBTable(name = "drizzt_data_terminal")
-public class TerminalBean extends BaseBean {
+public class TerminalBean extends DBBean {
 	@DBConstraintPK
 	private String adid;
 	// 终端类型
@@ -35,8 +35,8 @@ public class TerminalBean extends BaseBean {
 		public static final String MAC = "mac";
 		public static final String PHONE_NO = "phone_no";
 	}
-	
-	public static void main(String[] args) throws Exception{
-		new TerminalBean().buildTable();
+
+	public static void main(String[] args) throws Exception {
+		DBBean.createTable(TerminalBean.class);
 	}
 }
