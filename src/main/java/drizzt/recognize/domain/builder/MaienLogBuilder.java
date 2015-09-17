@@ -1,9 +1,11 @@
-package drizzt.recognize.domain;
+package drizzt.recognize.domain.builder;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.StringUtils;
+
+import drizzt.recognize.domain.LogRecord;
 
 /**
  * 日志：12个字段，意义如下： 字段1： 字段2：用户标识 字段3： 字段4： 字段5： 字段6：host+port 字段7：path+parameter
@@ -14,25 +16,17 @@ import org.apache.commons.lang.StringUtils;
  */
 @Data
 @Slf4j
-public class MaienLog {
-	private String uid;
-	private String host;
-	private String domain;
+public class MaienLogBuilder {
 
-	private String url;
-	private String refer;
-	private String ua;
-	private String cookie;
-
-	public static MaienLog convertLine(String line) {
+	public static LogRecord convertLine(String line) {
 		String[] records = StringUtils.splitByWholeSeparatorPreserveAllTokens(line, "\t");
 		if (records.length != 12) {
 			log.warn("records fields error : {}", records.length);
 			return null;
 		}
 
-		MaienLog maienLog = new MaienLog();
-		maienLog.setUid(records[1]);
+		LogRecord maienLog = new LogRecord();
+		maienLog.setAdid(records[1]);
 		maienLog.setHost(handleHost(records[5]));
 		maienLog.setUrl(handleUrl(maienLog.getHost(), records[6]));
 		maienLog.setRefer(filterNull(records[7]));

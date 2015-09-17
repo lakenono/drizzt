@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import drizzt.recognize.domain.MaienLog;
+import drizzt.recognize.domain.LogRecord;
 import drizzt.rule.terminal.TerminalBean;
 import drizzt.rule.terminal.TerminalRule;
 
@@ -21,7 +21,7 @@ public class TerminalRecognizer {
 	 * @param bean
 	 * @return
 	 */
-	public List<TerminalBean> recognize(MaienLog bean) {
+	public List<TerminalBean> recognize(LogRecord bean) {
 		// url识别
 		if (StringUtils.isBlank(bean.getUrl())) {
 			return null;

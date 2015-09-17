@@ -2,7 +2,7 @@ package drizzt.recognize;
 
 import org.apache.commons.lang.StringUtils;
 
-import drizzt.recognize.domain.MaienLog;
+import drizzt.recognize.domain.LogRecord;
 import drizzt.rule.url.URLBean;
 import drizzt.rule.url.URLRule;
 
@@ -13,7 +13,7 @@ public class URLFeatureRecognizer {
 		this.rules = new URLRule();
 	}
 
-	public URLBean recognize(MaienLog bean) {
+	public URLBean recognize(LogRecord bean) {
 		// url识别
 		if (StringUtils.isBlank(bean.getUrl())) {
 			return null;
