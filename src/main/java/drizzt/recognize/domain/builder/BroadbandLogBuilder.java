@@ -1,6 +1,5 @@
 package drizzt.recognize.domain.builder;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,7 @@ import drizzt.recognize.domain.LogRecord;
 @Slf4j
 public class BroadbandLogBuilder {
 
-	public static LogRecord convertLine(String line) throws MalformedURLException {
+	public static LogRecord convertLine(String line) {
 		try {
 			String[] s = StringUtils.split(line, "\t");
 
@@ -50,8 +49,8 @@ public class BroadbandLogBuilder {
 			// log.debug(bean.toString());
 			return bean;
 		} catch (Exception e) {
-			log.error("error: {}", line);
-			throw new RuntimeException(e);
+			log.error("error: {},{}", e.getMessage(),line);
 		}
+		return null;
 	}
 }
