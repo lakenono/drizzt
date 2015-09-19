@@ -2,5 +2,15 @@
 <Configuration>
 	<!-- 数据来源：命名规则省全拼，小写 -->
 	<datasource>shanghai</datasource>
+	<doddata-test>
+		<cleandb>false</cleandb>
+		<thread-pool>
+			<threadpool-size>2</threadpool-size>
+			<taskqueue-size>100</taskqueue-size>
+		</thread-pool>
+		<monitor>
+			<monitor-period>5</monitor-period>
+		</monitor>
+	</doddata-test>
 </Configuration>
 
