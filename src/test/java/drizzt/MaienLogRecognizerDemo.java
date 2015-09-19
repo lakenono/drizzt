@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import lakenono.db.DBBean;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.FileUtils;
@@ -14,14 +15,17 @@ import drizzt.recognize.AccountRecognizer;
 import drizzt.recognize.AppRecognizer;
 import drizzt.recognize.TerminalRecognizer;
 import drizzt.recognize.URLFeatureRecognizer;
-import drizzt.recognize.domain.MaienLog;
+import drizzt.recognize.domain.LogRecord;
+import drizzt.recognize.domain.builder.MaienLogBuilder;
 import drizzt.rule.account.AccountBean;
 import drizzt.rule.app.AppBean;
 import drizzt.rule.terminal.TerminalBean;
 import drizzt.rule.url.URLBean;
 
 @Slf4j
-public class LogRecognizerDemo {
+public class MaienLogRecognizerDemo {
+	private static String tableKey = "maien";
+
 	private File logFile;
 
 	private AppRecognizer appRecognizer;
@@ -35,7 +39,18 @@ public class LogRecognizerDemo {
 	private int accountCount;
 	private int goodsCount;
 
-	public LogRecognizerDemo(String path) throws Exception {
+	private void createTable() throws Exception {
+		DBBean.createTable(AppBean.class, tableKey);
+		DBBean.createTable(TerminalBean.class, tableKey);
+		DBBean.createTable(AccountBean.class, tableKey);
+		DBBean.createTable(AppBean.class, tableKey);
+	}
+
+	public MaienLogRecognizerDemo(String path) throws Exception {
+		// 创建测试数据库表
+		createTable();
+
+		// 开始单进程处理
 		logFile = new File(path);
 
 		if (!logFile.exists()) {
@@ -57,7 +72,7 @@ public class LogRecognizerDemo {
 		while (lineIterator.hasNext()) {
 			String line = lineIterator.nextLine();
 
-			MaienLog maienLog = MaienLog.convertLine(line);
+			LogRecord maienLog = MaienLogBuilder.convertLine(line);
 			if (maienLog == null) {
 				continue;
 			}
@@ -65,8 +80,8 @@ public class LogRecognizerDemo {
 			// 应用识别
 			AppBean app = appRecognizer.recognize(maienLog);
 			if (app != null) {
-				app.setAdid(maienLog.getUid());
-				boolean persist = app.persistOnNotExist();
+				app.setAdid(maienLog.getAdid());
+				boolean persist = app.saveOnNotExist();
 				if (persist) {
 					appCount++;
 				}
@@ -76,8 +91,7 @@ public class LogRecognizerDemo {
 			List<TerminalBean> terminals = terminalRecognizer.recognize(maienLog);
 			if (terminals != null && !terminals.isEmpty()) {
 				for (TerminalBean t : terminals) {
-					t.setAdid(maienLog.getUid());
-					boolean persist = t.persistOnNotExist();
+					boolean persist = t.saveOnNotExist();
 					if (persist) {
 						terminalCount++;
 					}
@@ -88,8 +102,7 @@ public class LogRecognizerDemo {
 			List<AccountBean> accounts = accountRecognizer.recognize(maienLog);
 			if (accounts != null && !accounts.isEmpty()) {
 				for (AccountBean a : accounts) {
-					a.setAdid(maienLog.getUid());
-					boolean persist = a.persistOnNotExist();
+					boolean persist = a.saveOnNotExist();
 					if (persist) {
 						accountCount++;
 					}
@@ -99,8 +112,7 @@ public class LogRecognizerDemo {
 			// 商品识别
 			URLBean goods = goodsRecognizer.recognize(maienLog);
 			if (goods != null) {
-				goods.setAdid(maienLog.getUid());
-				boolean persist = goods.persistOnNotExist();
+				boolean persist = goods.saveOnNotExist();
 				if (persist) {
 					goodsCount++;
 				}
@@ -121,9 +133,10 @@ public class LogRecognizerDemo {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
 			log.info("Usage : drizzt.LogRecognizerDemo filePath");
+			return;
 		}
 
-		new LogRecognizerDemo(args[0]).run();
+		new MaienLogRecognizerDemo(args[0]).run();
 	}
 
 }
