@@ -73,7 +73,7 @@ public class AdidUserFindDemo
 			{
 				for (AdidUser adidUser : keywordAdidUsers)
 				{
-					adidUser.persistOnNotExist();
+					adidUser.saveOnNotExist();
 				}
 			}
 
@@ -82,7 +82,7 @@ public class AdidUserFindDemo
 			{
 				for (AdidUser adidUser : domainAdidUsers)
 				{
-					adidUser.persistOnNotExist();
+					adidUser.saveOnNotExist();
 				}
 			}
 			
@@ -91,7 +91,7 @@ public class AdidUserFindDemo
 			{
 				for (AdidUser adidUser : hostAdidUsers)
 				{
-					adidUser.persistOnNotExist();
+					adidUser.saveOnNotExist();
 				}
 			}
 			
@@ -100,7 +100,7 @@ public class AdidUserFindDemo
 			{
 				for (AdidUser adidUser : urlAdidUsers)
 				{
-					adidUser.persistOnNotExist();
+					adidUser.saveOnNotExist();
 				}
 			}
 			
