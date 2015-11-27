@@ -81,7 +81,7 @@ public class ADXCookieFindDemo
 			user.setAdxtype(bean.getHost());
 			user.setAdxcookie(bean.getCookie()); //TODO 可以update cookie... 后续再说吧
 
-			user.persistOnNotExist();
+			user.saveOrUpdate();
 
 			log.info(bean.toString());
 		}

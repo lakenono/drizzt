@@ -2,7 +2,7 @@ package drizzt.domain;
 
 import java.sql.SQLException;
 
-import lakenono.db.BaseBean;
+import lakenono.db.DBBean;
 import lakenono.db.annotation.DBConstraintPK;
 import lakenono.db.annotation.DBField;
 import lakenono.db.annotation.DBTable;
@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @DBTable(name = "drizzt_data_adxuser")
 @EqualsAndHashCode(callSuper = false)
-public class AdxUser extends BaseBean
+public class AdxUser extends DBBean
 {
 	@DBConstraintPK
 	private String adid;
@@ -25,6 +25,6 @@ public class AdxUser extends BaseBean
 
 	public static void main(String[] args) throws SQLException
 	{
-		new AdxUser().buildTable();
+		DBBean.createTable(AdxUser.class);
 	}
 }
