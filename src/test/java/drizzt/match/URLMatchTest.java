@@ -25,8 +25,8 @@ public class URLMatchTest {
 	@Test
 	public void test() {
 		BroadbandLog log = new BroadbandLog();
-		String host = "item.taobao.com";
-		String url = "https://item.taobao.com/item.htm?id=21157784877";
+		String host = "item.yhd.com";
+		String url = "http://item.yhd.com/item/29237767";
 		String adid = "lurenjia";
 
 		log.setAdid(adid);
@@ -46,7 +46,7 @@ public class URLMatchTest {
 
 	@Test
 	public void testLog() throws Exception {
-		String fileName = "/Users/shilei/Root/DevelopSpace/Test/2015060200.txt";
+		String fileName = "/Users/shilei/Root/Develop/DevelopSpace/Test/2015091721.txt";
 		LineIterator lineIterator = FileUtils.lineIterator(new File(fileName));
 
 		while (lineIterator.hasNext()) {
@@ -59,9 +59,9 @@ public class URLMatchTest {
 				continue;
 			}
 			
-			System.out.println(bean.getUrl());
-			System.out.println(bean.getRef());
-			System.out.println("-----------------");
+//			System.out.println(bean.getUrl());
+//			System.out.println(bean.getRef());
+//			System.out.println("-----------------");
 			
 //			String url = "detail.tmall.com";
 //			if(StringUtils.contains(bean.getUrl(), url)||StringUtils.contains(bean.getRef(), url)){

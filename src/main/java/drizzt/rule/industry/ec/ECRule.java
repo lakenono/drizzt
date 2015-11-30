@@ -6,15 +6,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import lakenono.db.BaseBean;
+import lakenono.db.DBBean;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
-
-import drizzt.rule.industry.ec.ECBean;
-import drizzt.rule.industry.ec.ECRuleBean;
 
 @Slf4j
 public class ECRule extends BaseBean {
@@ -23,9 +20,14 @@ public class ECRule extends BaseBean {
 	private Map<String, List<ECRuleBean>> rules = new HashMap<String, List<ECRuleBean>>();
 
 	public ECRule() throws SQLException {
-		List<ECRuleBean> dbRules = BaseBean.getAll(ECRuleBean.class);
+		List<ECRuleBean> dbRules = DBBean.getAll(ECRuleBean.class);
 
 		for (ECRuleBean r : dbRules) {
+			try {
+				r.init();
+			} catch (Exception e) {
+				log.warn("ecRule init error : {}", r, e);
+			}
 
 			List<ECRuleBean> ecRules = rules.get(r.getHost());
 
@@ -61,23 +63,21 @@ public class ECRule extends BaseBean {
 			ECRuleBean r = iter.next();
 
 			try {
-				Matcher matcher = r.getPattern().matcher(url);
-
-				if (matcher.find()) {
-
+				if (r.match(url)) {
 					ecBean = new ECBean();
 					ecBean.setAction(r.getAction());
-					ecBean.setFrom(r.getFrom());
+					ecBean.setSource(r.getSource());
 					ecBean.setSite(r.getSite());
 
-					if (matcher.groupCount() > 0) {
-						ecBean.setEcId(matcher.group(1));
-						ecBean.setIdtype(r.getIdtype());
+					String extractStr = r.extract(url);
+					if (extractStr != null) {
+						ecBean.setEcId(extractStr);
+						ecBean.setIdType(r.getIdType());
 					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("regex error : {} ", r);
+				log.warn("regex error : {} ", r);
 				iter.remove();
 			}
 		}

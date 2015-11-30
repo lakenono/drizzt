@@ -22,7 +22,7 @@ public class ECBean extends DBBean {
 	private String ecId;
 	
 	// 电商id类型
-	private String idtype;
+	private String idType;
 	
 	// 站点
 	@DBConstraintPK
@@ -33,7 +33,7 @@ public class ECBean extends DBBean {
 	private String action;
 	
 	//来源
-	private String from;
+	private String source;
 
 	public static void main(String[] args) throws Exception {
 		DBBean.createTable(ECBean.class);

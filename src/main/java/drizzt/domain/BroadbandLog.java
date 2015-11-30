@@ -75,9 +75,9 @@ public class BroadbandLog
 		}
 		catch (Exception e)
 		{
-			log.error("error: {}", line);
-			throw new RuntimeException(e);
+//			log.warn("error: {}", line);
 		}
+		return null;
 	}
 
 	public static String getDomain(String url)

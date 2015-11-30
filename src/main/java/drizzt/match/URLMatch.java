@@ -14,8 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import drizzt.domain.AdidUser;
 import drizzt.domain.BroadbandLog;
 import drizzt.match.domain.URL;
-import drizzt.rule.url.URLBean;
-import drizzt.rule.url.URLRule;
+import drizzt.rule.industry.ec.ECBean;
+import drizzt.rule.industry.ec.ECRule;
 
 /**
  * url 匹配
@@ -25,16 +25,16 @@ import drizzt.rule.url.URLRule;
  */
 @Slf4j
 public class URLMatch {
-	//url提取规则
-	private URLRule urlRule;
+	// url提取规则
+	private ECRule ecRule;
 
-	//url 特征与待提取的comapignid对应关系
+	// url 特征与待提取的comapignid对应关系
 	private Map<String, List<String>> urls; // key：site + feature , value :
 
 	public URLMatch() throws SQLException {
-		urlRule = new URLRule();
+		ecRule = new ECRule();
 
-		urls = new HashMap<>();
+		urls = new HashMap<String, List<String>>();
 
 		List<URL> urlList = BaseBean.getAll(URL.class);
 		log.debug("url campaigns :{} ", urlList.size());
@@ -59,17 +59,19 @@ public class URLMatch {
 		}
 		try {
 			if (StringUtils.isBlank(host)) {
-				host = new java.net.URL(url).getHost();
-			}
-
-			// 根据host match 获得标志
-			URLBean urlBean = urlRule.match(host, url);
-			if (urlBean == null) {
 				return null;
 			}
 
+			// 根据host match 获得标志
+			ECBean ecBean = ecRule.match(host, url);
+			
+			if (ecBean == null) {
+				return null;
+			}
+
+			log.debug("ecbean : {}",ecBean);
 			// 根据site 找到对应的站点
-			String key = urlBean.getSite() + urlBean.getUrlFeture();
+			String key = ecBean.getSite() + ecBean.getEcId();
 			if (urls.containsKey(key)) {
 				List<AdidUser> users = new ArrayList<>();
 				List<String> campaignIds = urls.get(key);
