@@ -51,9 +51,9 @@ public class BroadbandLog
 			}
 
 			BroadbandLog bean = new BroadbandLog();
-			bean.setTs(s[0]);
-			bean.setSrcip(s[1]);
-			bean.setAdid(s[2]);
+			bean.setSrcip(s[0]);
+			bean.setAdid(s[1]);
+			bean.setTs(s[2]);
 			bean.setUrl(s[3]);
 			bean.setRef(s[4]);
 			bean.setUa(s[5]);
